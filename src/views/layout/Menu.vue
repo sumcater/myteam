@@ -1,16 +1,12 @@
 <template>
 	<el-menu class="tac">
-		<el-breadcrumb separator-class="el-icon-arrow-right">
-			<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-			<el-breadcrumb-item>活动管理</el-breadcrumb-item>
-		</el-breadcrumb>
 		<el-menu
 			class="el-menu-vertical-demo"
 			@open="handleOpen"
 			unique-opened
 			@close="handleClose"
 			@select="handleSelect"
-			router
+			:default-active="ActiveRoute"
 		>
 			<!-- <el-submenu index="1">
 				<template slot="title">
@@ -38,7 +34,7 @@
 					<el-menu-item index="2-2-1">公募产品明细表</el-menu-item>
 				</el-submenu>
 			</el-submenu>-->
-			<el-submenu :index="firstMenu.resUrl" v-for="firstMenu in menuArr" :key="firstMenu.id">
+			<el-submenu :index="'/'+firstMenu.resUrl" v-for="firstMenu in menuArr" :key="firstMenu.id">
 				<template slot="title">
 					<!-- <i class="el-icon-location"></i> -->
 					<i :class="'el-icon-'+firstMenu.icon"></i>
@@ -46,13 +42,13 @@
 				</template>
 				<template v-if="firstMenu.children&&firstMenu.children.length">
 					<el-menu-item
-						:index="firstMenu.resUrl+'/'+secondMenu.resUrl"
+						:index="'/'+firstMenu.resUrl+'/'+secondMenu.resUrl"
 						v-if="!secondMenu.children.length"
 						v-for="secondMenu in firstMenu.children"
 						:key="secondMenu.id"
 					>{{secondMenu.resName}}</el-menu-item>
 					<el-submenu
-						:index="firstMenu.resUrl+'/'+secondMenu.resUrl"
+						:index="'/'+firstMenu.resUrl+'/'+secondMenu.resUrl"
 						v-for="secondMenu in firstMenu.children"
 						:key="secondMenu.id"
 						v-if="secondMenu.children.length"
@@ -62,7 +58,7 @@
 							<span>{{secondMenu.resName}}</span>
 						</template>
 						<el-menu-item
-							:index="firstMenu.resUrl+'/'+secondMenu.resUrl+'/'+thirdMenu.resUrl"
+							:index="'/'+firstMenu.resUrl+'/'+secondMenu.resUrl+'/'+thirdMenu.resUrl"
 							v-for="thirdMenu in secondMenu.children"
 							:key="thirdMenu.id"
 						>{{thirdMenu.resName}}</el-menu-item>
@@ -77,6 +73,7 @@
 export default {
 	data() {
 		return {
+			ActiveRoute: "",
 			menuArr: [
 				{
 					createId: "H000000",
@@ -990,12 +987,20 @@ export default {
 			]
 		};
 	},
+	watch: {
+		$route: {
+			handler(newVal) {
+				this.ActiveRoute = newVal.fullPath;
+			},
+			immediate: true
+		}
+	},
 	methods: {
 		handleSelect(key, keyPath) {
-			console.log(key, keyPath);
+			this.$router.push({ path: keyPath[keyPath.length - 1] });
 		},
 		handleOpen(key, keyPath) {
-			console.log(key, keyPath);
+			console.log(key, keyPath, "===");
 		},
 		handleClose(key, keyPath) {
 			console.log(key, keyPath);

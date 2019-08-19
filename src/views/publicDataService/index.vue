@@ -1,6 +1,7 @@
 <template>
   <div>
-    welcome!
+    index
+    <router-view></router-view>
   </div>
 </template>
 <script>
