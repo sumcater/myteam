@@ -1,10 +1,10 @@
-import Denied from "@/views/Denied";
+
 
 const common = [
   {
     path: "denied",
     name: "denied",
-    component: Denied,
+    component: () => import("@/views/Denied"),
     meta: { breadcrumbName: "未授权页" },
   },
   {
