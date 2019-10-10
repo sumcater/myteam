@@ -20,4 +20,5 @@ export default {
 		}
 	}
 };
+//  该方法，一定要注意，props的值一定要定义为‘value’，不然不起作用，提交给父组件的事件名为‘input’
 </script>
