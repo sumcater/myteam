@@ -23,6 +23,14 @@ const dynamicQuery = [
         },
         component: () => import("@/views/dynamicQuery/dynamicQueryVerifyConfig"),
       },
+      {
+        path: "dynamicQueryExecuteConfig",
+        name: "dynamicQueryExecuteConfig",
+        meta: {
+          title: "执行查询",
+        },
+        component: () => import("@/views/dynamicQuery/dynamicQueryExecuteConfig"),
+      },
     ],
   },
 ];
