@@ -14,7 +14,7 @@ const form = { ipt1: "", ipt416: "",ipt2: "", ipt4: "", ipt56: "" }
 // console.log(Object.keys(form));
 
 let aaa=Object.keys(form).reduce((m, n) => {
-  // console.log(m, n, +n.slice(3));
+  console.log(m, n, +n.slice(3));
   if (+m.slice(3) < +n.slice(3)) {
     m=n
   }
