@@ -3,6 +3,25 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
+const os = require('os')
+
+function getLocalIp() {
+  var osNet = os.networkInterfaces();
+  for (var devName in osNet) {
+    var iface = osNet[devName];
+    for (var i = 0; i < iface.length; i++) {
+      var alias = iface[i];
+      if (alias.family === 'IPv4' && (devName == '本地连接' || devName == '以太网' || devName == '以太网 2' || devName == "WLAN" || devName == '无线网络连接' || devName == '本地连接 2' || devName == '以太网 12' || devName == '以太网 11')) {
+        console.log('当前本地ip：' + alias.address);
+        return alias.address;
+      }
+    }
+  }
+}
+
+//当前电脑ip
+var localIp = getLocalIp();
+
 
 module.exports = {
   dev: {
@@ -10,7 +29,7 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
@@ -19,8 +38,14 @@ module.exports = {
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
+    proxyTable: {
+      '/api': {
+        target: 'http://' + localIp + ':8558/', //本地环境
+        changeOrigin: true,
+        secure: false,
+      }
+    },
 
-    
     /**
      * Source Maps
      */
